@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+	<!-- weather -->
+	<backgroundcolor></backgroundcolor>
+	<defaultcontrol always="true">100</defaultcontrol>
+	
+	<!-- Refresh Weather when page opens-->
+	<onload>Weather.Refresh</onload>
+
+	<controls>
+
+		<!-- Hidden button -->
+		<control type="button" id="100">
+			<onclick condition="!Skin.HasSetting(KioskMode)">SetFocus(3001)</onclick>
+			<onup condition="!Skin.HasSetting(KioskMode)">3001</onup>
+			<ondown condition="!Skin.HasSetting(KioskMode)">3001</ondown>
+			<onleft condition="!Skin.HasSetting(KioskMode)">3001</onleft>
+			<onright condition="!Skin.HasSetting(KioskMode)">3001</onright>
+		</control>
+
+		<!-- Background -->
+		<include>WindowBackgroundImage</include>
+		<include>DialogFadeBackgroundImage2</include>
+
+		<!-- Time -->
+		<include>Time</include>
+
+		<!-- Main group -->
+		<control type="group">
+			<include>WindowFadeAnimation</include>
+
+			<!-- View -->
+			<control type="list" id="50">
+				<left>120</left>
+				<bottom>150</bottom>
+				<width>1680</width>
+				<height>400</height>
+				<orientation>horizontal</orientation>
+				<viewtype label="">list</viewtype>
+				<scrolltime tween="sine" easing="out">240</scrolltime>
+				<animation effect="fade" start="100" end="0" time="0">Hidden</animation>
+				<animation effect="fade" start="0" end="100" time="200" delay="100">Visible</animation>
+				<animation effect="slide" start="0,0" end="700,0" time="0" condition="String.IsEqual(Container(50).NumItems,1)">conditional</animation>
+				<animation effect="slide" start="0,0" end="560,0" time="0" condition="String.IsEqual(Container(50).NumItems,2)">conditional</animation>
+				<animation effect="slide" start="0,0" end="420,0" time="0" condition="String.IsEqual(Container(50).NumItems,3)">conditional</animation>
+				<animation effect="slide" start="0,0" end="280,0" time="0" condition="String.IsEqual(Container(50).NumItems,4)">conditional</animation>
+				<animation effect="slide" start="0,0" end="140,0" time="0" condition="String.IsEqual(Container(50).NumItems,5)">conditional</animation>
+
+				<itemlayout width="280" height="450">
+					<control type="label">
+						<top>2</top>
+						<width>280</width>
+						<height>42</height>
+						<font>Font42</font>
+						<align>center</align>
+						<textcolor>$VAR[TextColor1]</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="image">
+						<left>40</left>
+						<top>50</top>
+						<width>200</width>
+						<height>200</height>
+						<texture background="true">$INFO[ListItem.Icon]</texture>
+						<aspectratio align="center" aligny="bottom">keep</aspectratio>
+						<visible>!Skin.HasSetting(weatherIcons.multi)</visible>
+					</control>
+					<control type="multiimage">
+						<left>40</left>
+						<top>50</top>
+						<width>200</width>
+						<height>200</height>
+						<imagepath>$INFO[ListItem.Property(weatherIconMulti)]</imagepath>
+						<timeperimage>200</timeperimage>
+						<aspectratio align="center" aligny="bottom">keep</aspectratio>
+						<visible>Skin.HasSetting(weatherIcons.multi)</visible>
+					</control>
+					<control type="label">
+						<top>330</top>
+						<width>280</width>
+						<height>36</height>
+						<font>Font36</font>
+						<align>center</align>
+						<textcolor>$VAR[TextColor2]</textcolor>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+				</itemlayout>
+
+				<focusedlayout width="280" height="400">
+					<control type="label">
+						<top>2</top>
+						<width>280</width>
+						<height>42</height>
+						<font>Font42</font>
+						<align>center</align>
+						<label>$INFO[ListItem.Label]</label>
+						<textcolor>$VAR[TextColor1]</textcolor>
+					</control>
+					<control type="image">
+						<left>40</left>
+						<top>50</top>
+						<width>200</width>
+						<height>200</height>
+						<texture background="true">$INFO[ListItem.Icon]</texture>
+						<aspectratio align="center" aligny="bottom">keep</aspectratio>
+						<visible>!Skin.HasSetting(weatherIcons.multi)</visible>
+					</control>
+					<control type="multiimage">
+						<left>40</left>
+						<top>50</top>
+						<width>200</width>
+						<height>200</height>
+						<imagepath>$INFO[ListItem.Property(weatherIconMulti)]</imagepath>
+						<timeperimage>200</timeperimage>
+						<aspectratio align="center" aligny="bottom">keep</aspectratio>
+						<visible>Skin.HasSetting(weatherIcons.multi)</visible>
+					</control>
+					<control type="label">
+						<top>330</top>
+						<width>280</width>
+						<height>36</height>
+						<font>Font36</font>
+						<align>center</align>
+						<textcolor>$VAR[TextColor2]</textcolor>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+				</focusedlayout>
+				<content>
+					<item>
+						<label>$LOCALIZE[33006]</label>
+						<label2>$INFO[Window(Weather).Property(Day0.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day0.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.1.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.1.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.1.LongDay))</visible>
+					</item>
+					<item>
+						<label>$LOCALIZE[33007]</label>
+						<label2>$INFO[Window(Weather).Property(Day1.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day1.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.2.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.2.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.2.LongDay))</visible>
+					</item>
+					<item>
+						<label>$INFO[Window(Weather).Property(Daily.3.LongDay)]</label>
+						<label2>$INFO[Window(Weather).Property(Day2.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day2.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.3.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.3.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.3.LongDay))</visible>
+					</item>
+					<item>
+						<label>$INFO[Window(Weather).Property(Daily.4.LongDay)]</label>
+						<label2>$INFO[Window(Weather).Property(Day3.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day3.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.4.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.4.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.4.LongDay))</visible>
+					</item>
+					<item>
+						<label>$INFO[Window(Weather).Property(Daily.5.LongDay)]</label>
+						<label2>$INFO[Window(Weather).Property(Day4.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day4.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.5.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.5.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.5.LongDay))</visible>
+					</item>
+					<item>
+						<label>$INFO[Window(Weather).Property(Daily.6.LongDay)]</label>
+						<label2>$INFO[Window(Weather).Property(Day5.LowTemp)]$INFO[System.TemperatureUnits] | $INFO[Window(Weather).Property(Day5.HighTemp)]$INFO[System.TemperatureUnits]</label2>
+						<icon>$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.6.FanartCode)]$VAR[WeatherIconsExtVar]</icon>
+						<property name="weatherIconMulti">$VAR[weatherIcons]$INFO[Window(Weather).Property(Daily.6.FanartCode)]/</property>
+						<visible>!String.IsEmpty(Window(Weather).Property(Daily.6.LongDay))</visible>
+					</item>
+				</content>
+
+			</control>
+			
+		<!-- Daily Precipitation % -->	
+        <control type="group">
+            <bottom>250</bottom>
+			<width>50</width>
+			<height>36</height>
+			<font>Font36</font>
+			<align>center</align>
+			<!-- Today -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>210</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>245</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.1.Probability)]</label>
+			</control>
+			<!-- Tomorrow -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>490</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>525</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.2.Probability)]</label>
+			</control>
+			<!-- Day 3 -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>770</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>805</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.3.Probability)]</label>
+			</control>
+			<!-- Day 4 -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>1045</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>1080</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.4.Probability)]</label>
+			</control>
+			<!-- Day 5 -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>1325</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>1360</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.5.Probability)]</label>
+			</control>
+			<!-- Day 6 -->
+			<control type="image">
+			    <bottom>5</bottom>
+				<left>1605</left>
+				<height>25</height>
+				<aspectratio align="left" aligny="bottom">keep</aspectratio>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+            <control type="label">
+               <left>1640</left>
+               <textcolor>$VAR[TextColor2]</textcolor>
+				<label>$INFO[Window(Weather).Property(Daily.6.Probability)]</label>
+			</control>
+		</control>
+			
+			
+				<!-- Background Top -->
+				<control type="image">
+				    <left>0</left>
+				    <top>60</top>
+					<width>1920</width>
+					<height>165</height>
+					<texture colordiffuse="$VAR[DarkenColor2]">dialogs/Background.png</texture>
+				</control>
+			
+			
+			<!-- Location Info -->
+				<control type="label">
+					<left>160</left>
+					<bottom>90</bottom>
+					<width>600</width>
+					<height>44</height>
+					<font>Font33</font>
+					<align>left</align>
+					<label>Location: $INFO[Window(Weather).Property(Location)]</label>
+					<textcolor>$VAR[TextColor2]</textcolor>
+				</control>
+				<control type="label">
+					<left>160</left>
+					<bottom>50</bottom>
+					<width>600</width>
+					<height>44</height>
+					<font>Font25</font>
+					<align>left</align>
+					<label>Lat/Long: $INFO[Window(Weather).Property(Forecast.Latitude)], $INFO[Window(Weather).Property(Forecast.Longitude)]</label>
+					<textcolor>$VAR[TextColor2]</textcolor>
+				</control>
+
+			<!-- Current icon -->
+			<control type="image">
+				<left>180</left>
+				<top>240</top>
+				<width>220</width>
+				<height>220</height>
+				<texture background="true">$VAR[weatherIcons]$INFO[Window(Weather).Property(Current.FanartCode)]$VAR[WeatherIconsExtVar]</texture>
+				<aspectratio align="center" aligny="bottom">keep</aspectratio>
+				<visible>!Skin.HasSetting(weatherIcons.multi)</visible>
+			</control>
+			
+			<control type="label">
+				<left>280</left>
+				<top>340</top>
+				<width>600</width>
+				<height>45</height>
+				<font>Font44</font>
+				<align>right</align>
+				<label>Currently:  $INFO[Window(Weather).Property(Current.Condition)]</label>
+				<textcolor>$VAR[TextColor2]</textcolor>
+			</control>
+
+			<!-- Weather Info -->
+				<control type="label">
+					<left>1200</left>
+					<top>120</top>
+					<width>500</width>
+					<!--height>150</height-->
+					<font>Font74</font>
+					<textcolor>$VAR[TextColor1]</textcolor>
+					<label>$INFO[Window(Weather).Property(Current.Temperature)]</label>
+					<align>right</align>
+				</control>
+				<control type="label">
+					<left>1700</left>
+					<top>80</top>
+					<!--width>200</width-->
+					<!--height>150</height-->
+					<font>Font38</font>
+					<textcolor>$VAR[TextColor1]</textcolor>
+					<label>$INFO[System.TemperatureUnits]</label>
+				</control>
+		<control type="group">
+			<width>268</width>
+			<!--visible>!String.IsEmpty($PARAM[label])</visible-->
+			<control type="image">
+			    <top>88</top>
+				<left>280</left>
+				<width>60</width>
+				<height>60</height>
+				<texture colordiffuse="$VAR[TextColor1]">weather/wind.png</texture>
+			</control>
+			<control type="textbox">
+			    <top>140</top>
+			    <left>210</left>
+				<width>200</width>
+				<height>80</height>
+				<font>font27</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<scroll>true</scroll>
+				<label>$INFO[Window(weather).Property(Current.Wind)]</label>
+			</control>
+		</control>
+
+		<control type="group">
+			<width>268</width>
+			<control type="image">
+			    <top>85</top>
+				<left>450</left>
+				<width>60</width>
+				<height>60</height>
+				<texture colordiffuse="$VAR[TextColor1]">weather/humidity.png</texture>
+			</control>
+			<control type="textbox">
+			    <top>130</top>
+				<left>430</left>
+				<width>100</width>
+				<height>103</height>
+				<font>font27</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$INFO[Window(weather).Property(Current.Humidity)]</label>
+			</control>
+		</control>
+		
+		<control type="group">
+			<width>268</width>
+			<control type="image">
+			    <top>85</top>
+				<left>620</left>
+				<width>60</width>
+				<height>60</height>
+				<texture colordiffuse="$VAR[TextColor1]">weather/rain.png</texture>
+			</control>
+			<control type="textbox">
+			    <top>130</top>
+				<left>600</left>
+				<width>100</width>
+				<height>103</height>
+				<font>font27</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$INFO[Window(weather).Property(Current.Precipitation)]</label>
+			</control>
+		</control>
+		
+		<control type="group">
+			<width>268</width>
+			<control type="image">
+			    <top>85</top>
+				<left>790</left>
+				<width>60</width>
+				<height>60</height>
+				<texture colordiffuse="$VAR[TextColor1]">weather/sunrise.png</texture>
+			</control>
+			<control type="textbox">
+			    <top>130</top>
+				<left>775</left>
+				<width>100</width>
+				<height>103</height>
+				<font>font27</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$INFO[Window(weather).Property(Today.Sunrise)]</label>
+			</control>
+		</control>
+		
+		<control type="group">
+			<width>268</width>
+			<control type="image">
+			    <top>85</top>
+				<left>960</left>
+				<width>60</width>
+				<height>60</height>
+				<texture colordiffuse="$VAR[TextColor1]">weather/sunset.png</texture>
+			</control>
+			<control type="textbox">
+			    <top>130</top>
+				<left>945</left>
+				<width>100</width>
+				<height>103</height>
+				<font>font27</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<label>$INFO[Window(weather).Property(Today.Sunset)]</label>
+			</control>
+		</control>
+		
+				<control type="label">
+					<right>500</right>
+					<top>60</top>
+					<width>600</width>
+					<height>45</height>
+					<font>Font27</font>
+					<align>right</align>
+					<label>Moon:  $INFO[Window(Weather).Property(Today.MoonPhase)]</label>
+					<textcolor>$VAR[TextColor1]</textcolor>
+				</control>
+
+				<control type="label">
+					<right>500</right>
+					<top>90</top>
+					<width>600</width>
+					<height>45</height>
+					<font>Font27</font>
+					<align>right</align>
+					<textcolor>$VAR[TextColor1]</textcolor>
+					<label>$LOCALIZE[402]:  $INFO[Window(Weather).Property(Current.FeelsLike)]$INFO[System.TemperatureUnits]</label>
+				</control>
+				
+				<control type="label">
+					<right>500</right>
+					<top>120</top>
+					<width>600</width>
+					<height>45</height>
+					<font>Font27</font>
+					<align>right</align>
+					<label>Dew Point:  $INFO[Window(Weather).Property(Current.DewPoint)]$INFO[System.TemperatureUnits]</label>
+					<textcolor>$VAR[TextColor1]</textcolor>
+				</control>
+				
+				<control type="label">
+					<right>500</right>
+					<top>150</top>
+					<width>600</width>
+					<height>45</height>
+					<font>Font27</font>
+					<align>right</align>
+					<label>UV Index:  $INFO[Window(Weather).Property(Current.UVIndex)]</label>
+					<textcolor>$VAR[TextColor1]</textcolor>
+				</control>
+				
+				<control type="label">
+					<right>500</right>
+					<top>180</top>
+					<width>600</width>
+					<height>45</height>
+					<font>Font27</font>
+					<align>right</align>
+					<label>Pressure:  $INFO[Window(Weather).Property(Current.Pressure)]</label>
+					<textcolor>$VAR[TextColor1]</textcolor>
+				</control>
+				
+
+			<control type="group">
+				<left>420</left>
+				<top>200</top>
+				<control type="label">
+                    <description>update label</description>
+		    	    <right>160</right>
+                    <bottom>50</bottom>
+                    <width>1600</width>
+                    <height>44</height>
+                    <align>right</align>
+                    <font>font25</font>
+                    <label>$LOCALIZE[31301]: $INFO[Window.Property(Updated)]</label>
+                    <textcolor>$VAR[TextColor2]</textcolor>
+                 </control>
+			</control>
+
+
+			<!-- Weather provider -->
+			<control type="grouplist">
+				<right>160</right>
+				<bottom>90</bottom>
+				<width>1000</width>
+				<height>44</height>
+				<itemgap>6</itemgap>
+				<align>right</align>
+				<orientation>horizontal</orientation>
+				<usecontrolcoords>true</usecontrolcoords>
+				<control type="label">
+					<top>3</top>
+					<width>auto</width>
+					<height>44</height>
+					<align>right</align>
+					<font>Font25</font>
+					<textcolor>$VAR[TextColor2]</textcolor>
+				</control>
+				<control type="label">
+					<width>auto</width>
+					<height>44</height>
+					<align>right</align>
+					<label>$INFO[Window(Weather).Property(WeatherProvider)]</label>
+					<font>Font33</font>
+					<textcolor>$VAR[TextColor2]</textcolor>
+				</control>
+			</control>
+			
+				<control type="image">
+				    <right>90</right>
+				    <bottom>62</bottom>
+				    <width>60</width>
+				    <height>60</height>
+				    <align>right</align>
+				    <!--texture>weather/icon.png</texture-->
+					<!--texture colordiffuse="$VAR[TextColor1]">weather/icon.png</texture-->
+				</control>
+			
+			<!-- Submenu indicator -->
+			<include>SubmenuIndicator</include>
+
+			<!-- Options -->
+			<control type="group" id="9002">
+				<control type="image">
+					<include>FullscreenDimensions</include>
+					<texture colordiffuse="$VAR[DarkenColor]">dialogs/DialogTextBackground.png</texture>
+					<animation effect="fade" start="0" end="100" time="100">Visible</animation>
+					<animation effect="fade" start="100" end="0" time="100">Hidden</animation>
+					<visible>ControlGroup(9002).HasFocus</visible>
+				</control>
+				<control type="group">
+					<left>-450</left>
+					<top>0</top>
+					<animation effect="slide" start="0,0" end="450,0" time="200" condition="ControlGroup(9002).HasFocus">Conditional</animation>
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<width>450</width>
+						<height>1080</height>
+						<!--texture colordiffuse="$VAR[OverlayColor]">dialogs/Background.png</texture-->
+						<texture colordiffuse="$VAR[DarkenColor]">dialogs/Background.png</texture>
+					</control>
+					<control type="button">
+						<left>0</left>
+						<top>0</top>
+						<width>460</width>
+						<height>1080</height>
+						<texturefocus>noop</texturefocus>
+					</control>
+
+					<!-- Look controls -->
+					<control type="grouplist" id="3001">
+						<left>20</left>
+						<top>10</top>
+						<width>410</width>
+						<height>1040</height>
+						<onleft>100</onleft>
+						<onright>100</onright>
+						<scrolltime>200</scrolltime>
+						<orientation>vertical</orientation>
+						<itemgap>0</itemgap>
+						<defaultcontrol always="true">99</defaultcontrol>
+
+						<include content="SideMenuAnimation">
+							<param name="containerID">3001</param>
+						</include>
+
+						<!-- Location control -->
+						<control type="spincontrolex" id="3">
+							<width>410</width>
+							<label>$LOCALIZE[31069]:</label>
+							<height>52</height>
+						</control>
+						<!-- Refresh -->
+						<control type="button" id="2">
+							<height>52</height>
+							<label>103</label>
+						</control>
+
+					</control>
+				</control>
+			</control>
+
+		</control>
+
+	</controls>
+
+</window>

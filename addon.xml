@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon
+	id="skin.fluid-perfection"
+	version="1.0"
+	name="Fluid Perfection"
+	provider-name="">
+	<requires>
+		<import addon="xbmc.gui" version="5.15.0"/>
+	</requires>
+	<extension point="xbmc.gui.skin" defaultthemename="Textures.xbt" effectslowdown="1.00" debugging="false">
+		<res width="1920" height="1080" aspect="16:9" default="true" folder="xml" />
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en">Born from the OSMC skin and reworked to perfection.</summary>
+		<description lang="en">Original skin: Andy Morton[CR]Original design: Simon Brunton[CR]Skinner: Julian Michel[CR] Reworked by: Dave Smythe</description>
+		<news></news>
+	</extension>
+	<assets>
+		<icon>icon.png</icon>
+		<fanart>extras/backgrounds/1.png</fanart>
+	</assets>
+</addon>

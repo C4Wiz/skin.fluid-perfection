@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="1105" type="dialog">
+	<!-- FullScreenPlot -->
+	<!--defaultcontrol always="true">61</defaultcontrol-->
+
+	<controls>
+		<!-- Window Background -->
+		<include>WindowFadeBackgroundImage</include>
+
+
+
+
+	            <!-- Plot -->
+				<!--control type="group">
+					<top>360</top>
+					<left>0</left>
+					<width>1845</width>
+					<height>425</height>
+					<control type="textbox">
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>Font42</font>
+						<textcolor>$VAR[TextColor1]</textcolor>
+						<label>$VAR[Plot]</label>
+						<visible>!String.IsEmpty(ListItem.Plot)</visible>
+					</control>
+				</control-->
+    </controls>
+</window>
